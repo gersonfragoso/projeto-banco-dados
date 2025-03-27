@@ -1,0 +1,64 @@
+HELP.md
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Arquivos de configuração ###
+*.properties
+*.yml
+*.yaml
+*.env
+*.config
+application*.properties
+application*.yml
+
+### Logs ###
+logs/
+*.log
+
+### Dependências ###
+/.mvn/
+mvnw
+mvnw.cmd
+/gradle/
+/node_modules/
+
+### Builds ###
+target/
+out/
+
+### Caches Temporários ###
+.cache/
+.temp/
+
+### Outros arquivos ###
+.DS_Store
+Thumbs.db
