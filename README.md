@@ -79,3 +79,11 @@ DB_PASSWORD=sua_senha
 Após executar, você verá:
 
 ![Image](https://github.com/user-attachments/assets/9683157f-6bfc-43a4-9d12-c8ec9d6d1e42)
+
+## ⚙️ Inicializar Banco de Dados com Exemplos
+
+Para popular o banco de dados com exemplos de livros, basta descomentar o seguinte código:
+
+1. Descomente o método `inicializarBaseDeDados();` esse metodo é o segundo após o main.
+2. Descomente a linha onde o método é chamado no `main`.
+
