@@ -28,7 +28,8 @@ public class LivrariaApp {
         livroRepositorio.criarTabelaLivros();
         pedidoRepositorio.criarTabelasPedidos();
 
-        // inicializarBaseDeDados();  Apenas pra popular o banco
+        //Descomente aqui.
+        // inicializarBaseDeDados();
         exibirBoasVindas();
 
         while (true) {
@@ -67,6 +68,7 @@ public class LivrariaApp {
                 """);
     }
 
+    //E aqui
     /*
     private static void inicializarBaseDeDados() {
         if (livroRepositorio.listarLivros().isEmpty()) {
