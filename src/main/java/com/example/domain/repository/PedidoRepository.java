@@ -12,29 +12,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoRepository {
+
     public void criarTabelasPedidos() {
         String sqlPedidos = """
-        CREATE TABLE IF NOT EXISTS pedidos (
-            id BIGSERIAL PRIMARY KEY,
-            data DATE NOT NULL,
-            valor_total DECIMAL(10,2) NOT NULL
-        )
-    """;
+                    CREATE TABLE IF NOT EXISTS pedidos (
+                        id BIGSERIAL PRIMARY KEY,
+                        data DATE NOT NULL,
+                        valor_total DECIMAL(10,2) NOT NULL
+                    )
+                """;
 
         String sqlItensPedido = """
-        CREATE TABLE IF NOT EXISTS itens_pedido (
-            id BIGSERIAL PRIMARY KEY,
-            pedido_id BIGINT NOT NULL,
-            livro_id BIGINT NOT NULL,
-            quantidade INT NOT NULL,
-            preco_unitario DECIMAL(10,2) NOT NULL,
-            FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
-            FOREIGN KEY (livro_id) REFERENCES livros(id)
-        )
-    """;
+                    CREATE TABLE IF NOT EXISTS itens_pedido (
+                        id BIGSERIAL PRIMARY KEY,
+                        pedido_id BIGINT NOT NULL,
+                        livro_id BIGINT NOT NULL,
+                        quantidade INT NOT NULL,
+                        preco_unitario DECIMAL(10,2) NOT NULL,
+                        FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
+                        FOREIGN KEY (livro_id) REFERENCES livros(id)
+                    )
+                """;
 
-        try (Connection conn = ConnectionFactory.getConnection();
-             Statement stmt = conn.createStatement()) {
+        try (Connection conn = ConnectionFactory.getConnection(); Statement stmt = conn.createStatement()) {
             stmt.execute(sqlPedidos);
             stmt.execute(sqlItensPedido);
         } catch (SQLException e) {
@@ -45,8 +45,7 @@ public class PedidoRepository {
     public Pedido criarPedido() {
         String sql = "INSERT INTO pedidos (data, valor_total) VALUES (?, 0)";
 
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = ConnectionFactory.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setDate(1, Date.valueOf(LocalDate.now()));
             pstmt.executeUpdate();
@@ -75,9 +74,7 @@ public class PedidoRepository {
         try (Connection conn = ConnectionFactory.getConnection()) {
             conn.setAutoCommit(false);
 
-            try (PreparedStatement inserirItem = conn.prepareStatement(sqlItem);
-                 PreparedStatement updateValorTotal = conn.prepareStatement(sqlAtualizaValorTotal);
-                 PreparedStatement updateEstoque = conn.prepareStatement(sqlAtualizaEstoque)) {
+            try (PreparedStatement inserirItem = conn.prepareStatement(sqlItem); PreparedStatement updateValorTotal = conn.prepareStatement(sqlAtualizaValorTotal); PreparedStatement updateEstoque = conn.prepareStatement(sqlAtualizaEstoque)) {
 
                 BigDecimal valorItem = livro.getPreco().multiply(BigDecimal.valueOf(quantidade));
 
@@ -114,15 +111,9 @@ public class PedidoRepository {
     public List<Pedido> listarPedidos() {
         List<Pedido> pedidos = new ArrayList<>();
         String sqlPedidos = "SELECT * FROM pedidos ORDER BY data DESC";
-        String sqlItensPedido = "SELECT ip.id, ip.pedido_id, ip.livro_id, ip.quantidade, ip.preco_unitario, " +
-                "l.id AS livro_id, l.titulo, l.autor, l.preco, l.estoque " +
-                "FROM itens_pedido ip " +
-                "JOIN livros l ON ip.livro_id = l.id " +
-                "WHERE ip.pedido_id = ?";
+        String sqlItensPedido = "SELECT ip.id, ip.pedido_id, ip.livro_id, ip.quantidade, ip.preco_unitario, " + "l.id AS livro_id, l.titulo, l.autor, l.preco, l.estoque " + "FROM itens_pedido ip " + "JOIN livros l ON ip.livro_id = l.id " + "WHERE ip.pedido_id = ?";
 
-        try (Connection conn = ConnectionFactory.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rsPedidos = stmt.executeQuery(sqlPedidos)) {
+        try (Connection conn = ConnectionFactory.getConnection(); Statement stmt = conn.createStatement(); ResultSet rsPedidos = stmt.executeQuery(sqlPedidos)) {
 
             while (rsPedidos.next()) {
                 Pedido pedido = new Pedido();
@@ -140,13 +131,7 @@ public class PedidoRepository {
                             item.setQuantidade(rsItens.getInt("quantidade"));
                             item.setPrecoUnitario(rsItens.getBigDecimal("preco_unitario"));
 
-                            Livro livro = new Livro(
-                                    rsItens.getLong("livro_id"),
-                                    rsItens.getString("titulo"),
-                                    rsItens.getString("autor"),
-                                    rsItens.getBigDecimal("preco"),
-                                    rsItens.getInt("estoque")
-                            );
+                            Livro livro = new Livro(rsItens.getLong("livro_id"), rsItens.getString("titulo"), rsItens.getString("autor"), rsItens.getBigDecimal("preco"), rsItens.getInt("estoque"));
 
                             item.setLivro(livro);
                             item.setPedido(pedido);

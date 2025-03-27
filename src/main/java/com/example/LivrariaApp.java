@@ -13,6 +13,12 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+/*
+    Para o popular o banco com exemplos bastar descomentar:
+    1: O metodo inicializarBaseDeDados();
+    2: E onde ele é chamado no main;
+*/
+
 public class LivrariaApp {
     private static Scanner scanner = new Scanner(System.in);
     private static LivroRepository livroRepositorio = new LivroRepository();
@@ -136,7 +142,7 @@ public class LivrariaApp {
 
     private static void inserirLivro() {
         System.out.println("\n=== Inserir Novo Livro ===");
-        if (voltarAoMenu()){
+        if (voltarAoMenu()) {
             return;
         }
         String titulo = obterEntradaObrigatoria("Título", 1, 100);
@@ -160,15 +166,12 @@ public class LivrariaApp {
 
     private static void atualizarLivro() {
         System.out.println("\n=== Atualizar Livro ===");
-        if (voltarAoMenu()){
+        if (voltarAoMenu()) {
             return;
         }
         Long id = obterIdValido("ID do Livro a atualizar");
 
-        Livro livroAtual = livroRepositorio.listarLivros().stream()
-                .filter(l -> l.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        Livro livroAtual = livroRepositorio.listarLivros().stream().filter(l -> l.getId().equals(id)).findFirst().orElse(null);
         if (livroAtual == null) {
             System.out.println("Erro: Livro não encontrado.");
             return;
@@ -246,7 +249,7 @@ public class LivrariaApp {
 
     private static void deletarLivro() {
         System.out.println("\n=== Deletar Livro ===");
-        if (voltarAoMenu()){
+        if (voltarAoMenu()) {
             return;
         }
         Long id = obterIdValido("ID do Livro a deletar");
@@ -285,12 +288,9 @@ public class LivrariaApp {
         System.out.println("Relatório de Livros:");
         System.out.println("-------------------");
         for (Livro livro : livros) {
-            System.out.printf("ID: %d | Título: %s | Autor: %s | Preço: %.2f | Estoque: %d%n",
-                    livro.getId(), livro.getTitulo(), livro.getAutor(), livro.getPreco(), livro.getEstoque());
+            System.out.printf("ID: %d | Título: %s | Autor: %s | Preço: %.2f | Estoque: %d%n", livro.getId(), livro.getTitulo(), livro.getAutor(), livro.getPreco(), livro.getEstoque());
 
-            valorTotalEstoque = valorTotalEstoque.add(
-                    livro.getPreco().multiply(BigDecimal.valueOf(livro.getEstoque()))
-            );
+            valorTotalEstoque = valorTotalEstoque.add(livro.getPreco().multiply(BigDecimal.valueOf(livro.getEstoque())));
             quantidadeTotalLivros += livro.getEstoque();
         }
 
@@ -302,7 +302,7 @@ public class LivrariaApp {
 
     private static void criarPedido() {
         System.out.println("\n=== Criar Pedido ===");
-        if (voltarAoMenu()){
+        if (voltarAoMenu()) {
             return;
         }
         try {
@@ -315,25 +315,19 @@ public class LivrariaApp {
 
     private static void adicionarItemAoPedido() {
         System.out.println("\n=== Adicionar Item ao Pedido ===");
-        if (voltarAoMenu()){
+        if (voltarAoMenu()) {
             return;
         }
         Long pedidoId = obterIdValido("ID do Pedido");
         Long livroId = obterIdValido("ID do Livro");
 
-        Pedido pedido = pedidoRepositorio.listarPedidos().stream()
-                .filter(p -> p.getId().equals(pedidoId))
-                .findFirst()
-                .orElse(null);
+        Pedido pedido = pedidoRepositorio.listarPedidos().stream().filter(p -> p.getId().equals(pedidoId)).findFirst().orElse(null);
         if (pedido == null) {
             System.out.println("Erro: Pedido não encontrado.");
             return;
         }
 
-        Livro livro = livroRepositorio.listarLivros().stream()
-                .filter(l -> l.getId().equals(livroId))
-                .findFirst()
-                .orElse(null);
+        Livro livro = livroRepositorio.listarLivros().stream().filter(l -> l.getId().equals(livroId)).findFirst().orElse(null);
         if (livro == null) {
             System.out.println("Erro: Livro não encontrado.");
             return;
@@ -379,8 +373,7 @@ public class LivrariaApp {
         System.out.println("--------------------");
 
         for (Pedido pedido : pedidos) {
-            System.out.printf("ID: %d | Data: %s | Valor Total: %.2f%n",
-                    pedido.getId(), pedido.getData(), pedido.getValorTotal());
+            System.out.printf("ID: %d | Data: %s | Valor Total: %.2f%n", pedido.getId(), pedido.getData(), pedido.getValorTotal());
 
             valorTotalVendas = valorTotalVendas.add(pedido.getValorTotal());
 
@@ -389,8 +382,7 @@ public class LivrariaApp {
                     livrosDistintos.add(item.getLivro().getTitulo());
                     quantidadeTotalLivrosVendidos += item.getQuantidade();
 
-                    System.out.printf("  - Livro: %s | Quantidade: %d | Preço Unitário: %.2f%n",
-                            item.getLivro().getTitulo(), item.getQuantidade(), item.getPrecoUnitario());
+                    System.out.printf("  - Livro: %s | Quantidade: %d | Preço Unitário: %.2f%n", item.getLivro().getTitulo(), item.getQuantidade(), item.getPrecoUnitario());
                 }
             }
         }
@@ -416,8 +408,7 @@ public class LivrariaApp {
                 continue;
             }
             if (entrada.length() < minLength || entrada.length() > maxLength) {
-                System.out.printf("Erro: %s deve ter entre %d e %d caracteres.%n",
-                        campo, minLength, maxLength);
+                System.out.printf("Erro: %s deve ter entre %d e %d caracteres.%n", campo, minLength, maxLength);
                 continue;
             }
             return entrada;

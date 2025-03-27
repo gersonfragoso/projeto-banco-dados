@@ -7,17 +7,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class LivroRepository {
+
     public void criarTabelaLivros() {
         String sql = """
-        CREATE TABLE IF NOT EXISTS livros (
-            id BIGSERIAL PRIMARY KEY,
-            titulo VARCHAR(100) NOT NULL,
-            autor VARCHAR(100) NOT NULL,
-            preco DECIMAL(10,2) NOT NULL,
-            estoque INT NOT NULL
-        )
-    """;
+                    CREATE TABLE IF NOT EXISTS livros (
+                        id BIGSERIAL PRIMARY KEY,
+                        titulo VARCHAR(100) NOT NULL,
+                        autor VARCHAR(100) NOT NULL,
+                        preco DECIMAL(10,2) NOT NULL,
+                        estoque INT NOT NULL
+                    )
+                """;
 
         try (Connection conn = ConnectionFactory.getConnection();
              Statement stmt = conn.createStatement()) {

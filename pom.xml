@@ -23,5 +23,18 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <build>
+        <plugins>
+            <!-- Plugin para executar a classe principal -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>com.example.LivrariaApp</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
