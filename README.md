@@ -16,7 +16,7 @@ feito como primeiro Projeto da disciplina de [**Banco de dados**](https://sites.
 2. Altere o arquivo **`.env`** na raiz do projeto:
 
 ```properties
-DB_URL=jdbc:postgresql://localhost:5432/livraria_banco_jdbc
+DB_URL=jdbc:url_do_seu_banco
 DB_USER=seu_user
 DB_PASSWORD=sua_senha
 ```
